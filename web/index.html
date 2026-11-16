@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Compare published IODA connectivity signals and outage inferences for countries, regions and networks.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.ioda.inetintel.cc.gatech.edu; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Outage Scope · CoolCode.ca</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./style.css">
+<script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to outage lookup</a>
+<header class="mast"><div class="wrap"><a class="brand" href="https://coolcode.ca/#workbench"><b aria-hidden="true">&gt;_</b>CoolCode<em>.ca</em></a><button id="theme" type="button" aria-pressed="false">Dark mode</button></div></header>
+<main id="main">
+<section class="hero"><div class="wrap">
+  <div><p class="eyebrow">Internet connectivity signals</p><h1>Outage <em>Scope</em></h1><p class="lead">Compare routing, active probing and background traffic to investigate historical connectivity disruptions.</p></div>
+  <form id="lookup" class="terminal">
+    <div class="query-fields">
+      <label class="field">Entity type<select id="type"><option value="country">Country</option><option value="region">Region</option><option value="asn">Network (ASN)</option></select></label>
+      <label class="field">Code<input id="code" type="text" value="CA" required maxlength="18" spellcheck="false" autocomplete="off"></label>
+      <label class="field">From (UTC)<input id="from" type="date" required></label>
+      <label class="field">Through (UTC)<input id="through" type="date" required></label>
+    </div>
+    <div class="samples"><button id="submit" type="submit" class="primary">Load history</button><button id="canada" type="button">Canada · 7 days</button><button id="rogers" type="button">Rogers · July 2022</button></div>
+    <p class="small">Lookups go directly to Georgia Tech IODA. Choose up to 30 days. Use the finder below if you only know a name.</p>
+  </form>
+</div></section>
+<div class="wrap bench">
+  <section class="panel" aria-labelledby="finder-title"><header class="panel-head"><h2 id="finder-title">Find an entity code</h2><p class="muted">Search IODA’s country, region or network directory.</p></header>
+    <div class="panel-body">
+      <form id="finder" class="row">
+        <label class="field">Entity type<select id="find-type"><option value="region">Region</option><option value="country">Country</option><option value="asn">Network (ASN)</option></select></label>
+        <label class="field name-field">Entity name<input id="find-text" type="search" placeholder="British Columbia" required minlength="2" maxlength="70"></label>
+        <button id="find-submit" type="submit">Find codes</button>
+      </form>
+      <p class="muted" id="find-status" role="status"></p>
+      <ul id="find-results" class="item-list"></ul>
+    </div>
+  </section>
+  <p id="status" class="state" role="status" aria-live="polite">Load history or try the July 2022 Rogers example.</p>
+  <section id="report" class="report" aria-labelledby="result-title" hidden>
+    <header class="report-head"><div><h2 id="result-title"></h2><p id="provenance" class="muted"></p></div><div class="actions"><button type="button" id="share">Copy query link</button><a id="dashboard" target="_blank" rel="noopener noreferrer">IODA dashboard ↗</a></div></header>
+    <p id="share-status" class="muted" role="status" hidden></p><input id="share-fallback" type="url" aria-label="Shareable Outage Scope query URL" readonly hidden>
+    <dl class="stats"><div><dt>IODA detections</dt><dd id="event-count"></dd></div><div><dt>Signals with samples</dt><dd id="signal-count"></dd></div><div><dt>Window</dt><dd id="days-count"></dd></div><div><dt>Time basis</dt><dd>UTC</dd></div></dl>
+    <section class="panel" aria-labelledby="signals-title"><header class="panel-head"><h3 id="signals-title">Signal comparison</h3><p class="muted">Plots share the selected time window. Each chart has its own measurement scale. Shaded spans are IODA detections from the same signal.</p></header>
+      <div id="signals" class="stack panel-body"></div>
+    </section>
+    <section class="panel" aria-labelledby="events-title">
+      <header class="panel-head"><h3 id="events-title">Reported detections</h3><p class="muted">One disruption can trigger several signals. Times and durations describe the measured changes.</p></header>
+      <div class="panel-body row"><label class="field">Signal filter<select id="screen"><option value="">All signals</option></select></label><p id="event-detail" class="muted"></p></div>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Signal</th><th scope="col">Start UTC</th><th scope="col">Duration</th></tr></thead><tbody id="events"></tbody></table></div>
+      <div class="panel-body actions"><button id="more" type="button">Show more detections</button><a id="raw-events" target="_blank" rel="noopener noreferrer">Events JSON ↗</a><a id="raw-signals" target="_blank" rel="noopener noreferrer">Signals JSON ↗</a></div>
+    </section>
+  </section>
+  <section class="panel" aria-labelledby="method"><header class="panel-head"><h2 id="method">About the measurements</h2></header><div class="panel-body">
+    <p>A decline may reflect a connectivity disruption, differences in collection or a change in ordinary traffic. Compare signals before drawing conclusions about cause or reach. Missing data and a lookup with no detections leave network health unknown.</p>
+    <p>Source: <a href="https://ioda.inetintel.cc.gatech.edu/">Internet Outage Detection and Analysis</a> (IODA), Georgia Tech. Results are fetched from the <a href="https://api.ioda.inetintel.cc.gatech.edu/v2/docs">public API</a> and displayed in this tab. Outage Scope does not mirror the measurements. Read IODA’s <a href="https://ioda.inetintel.cc.gatech.edu/reports/watch-iodas-animation-videos-understanding-internet-connectivity-one-signal-at-a-time/">signal explanations</a>.</p>
+  </div></section>
+</div>
+</main>
+<footer class="footer"><div class="wrap"><span>CoolCode.ca · Outage Scope</span><nav aria-label="Sources"><a href="https://coolcode.ca/routearchaeologist/">Route Archaeologist</a><a href="https://github.com/jsdyer/outagescope">Source code ↗</a></nav></div></footer>
+</body></html>
