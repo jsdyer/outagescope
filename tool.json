@@ -1,0 +1,23 @@
+{
+  "id": "outagescope",
+  "title": "Outage Scope",
+  "description": "Explore network disruptions and compare the measurement signals behind them.",
+  "category": "liminal-tools",
+  "tags": [
+    "ioda",
+    "rogers",
+    "outage",
+    "connectivity",
+    "ping",
+    "bgp"
+  ],
+  "icon": "chart-no-axes-column-decreasing",
+  "url": "/outagescope/",
+  "source": "https://github.com/jsdyer/outagescope",
+  "hosting": "project",
+  "access": "browser",
+  "data_info": {
+    "mode": "live",
+    "detail": "Georgia Tech IODA supplies outage signals for a window of up to 30 days."
+  }
+}

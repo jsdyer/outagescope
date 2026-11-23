@@ -1,5 +1,9 @@
 # Outage Scope
 
+<!-- coolcode:guide -->
+Try the July 2022 Rogers AS812 example and compare routing visibility, probing and background traffic over the same UTC window. Missing samples or an empty detection list do not establish network health; follow the linked source evidence.
+<!-- /coolcode:guide -->
+
 A static viewer of Georgia Tech IODA’s published Internet connectivity signals and outage detections. Find a country, subnational region or network by name, or enter a known code. Select a window of at most 30 UTC days. Try the July 2022 Rogers AS812 example to compare routing visibility, active probing and background traffic.
 
 ## Build and test
