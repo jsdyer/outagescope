@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Compare published IODA connectivity signals and outage inferences for countries, regions and networks.">
+<meta name="description" content="{{DESCRIPTION}}">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.ioda.inetintel.cc.gatech.edu; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Outage Scope · CoolCode.ca</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.ioda.inetintel.cc.gatech.edu; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>{{TITLE}} · CoolCode</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 <script type="module" src="./app.mjs"></script>
@@ -17,7 +17,8 @@
 <header class="mast"><div class="wrap"><a class="brand" href="https://coolcode.ca/#workbench"><b aria-hidden="true">&gt;_</b>CoolCode<em>.ca</em></a><button id="theme" type="button" aria-pressed="false">Dark mode</button></div></header>
 <main id="main">
 <section class="hero"><div class="wrap">
-  <div><p class="eyebrow">Internet connectivity signals</p><h1>Outage <em>Scope</em></h1><p class="lead">Compare routing, active probing and background traffic to investigate historical connectivity disruptions.</p></div>
+  <div><p class="eyebrow">Outage Scope</p><h1>{{TITLE}}</h1><p class="lead">Compare routing, active probing and background traffic to investigate historical connectivity disruptions.</p></div>
+  <nav class="providers"><strong>Check your provider</strong><p>{{PROVIDERS}}</p>{{CONTEXT}}</nav>
   <form id="lookup" class="terminal">
     <div class="query-fields">
       <label class="field">Entity type<select id="type"><option value="country">Country</option><option value="region">Region</option><option value="asn">Network (ASN)</option></select></label>
@@ -29,7 +30,7 @@
     <p class="small">Lookups go directly to Georgia Tech IODA. Choose up to 30 days. Use the finder below if you only know a name.</p>
   </form>
 </div></section>
-<div class="wrap bench">
+<div class="wrap bench"><section class="panel" id="radar-panel" hidden><h2>Dated Cloudflare observations</h2><p id="radar-status"></p><ul id="radar-list"></ul><p>Source: <a href="https://radar.cloudflare.com/outage-center">Cloudflare Radar</a>, <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. CoolCode filters the saved Canadian annotations by network number. <a href="/radarscope/">Open the complete daily capture</a>.</p></section>
   <section class="panel" aria-labelledby="finder-title"><header class="panel-head"><h2 id="finder-title">Find an entity code</h2><p class="muted">Search IODA’s country, region or network directory.</p></header>
     <div class="panel-body">
       <form id="finder" class="row">

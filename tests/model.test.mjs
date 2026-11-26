@@ -31,3 +31,17 @@ test('scopes reported detections and validates entity search responses',()=>{
     [{code:'576',name:'British Columbia',context:'Canada'}]);
   assert.throws(()=>extractEvents({error:'not found'},{}),/IODA reported/);
 });
+
+test('each published provider page has its own ASN, canonical, assets and matching IODA form',async()=>{
+  const fs=await import('node:fs/promises');
+  const {execFileSync}=await import('node:child_process');
+  const root=new URL('../',import.meta.url);
+  execFileSync('python3',['scripts/build.py'],{cwd:root});
+  const records=JSON.parse(await fs.readFile(new URL('web/providers.json',root),'utf8'));
+  for(const {slug,asn,name} of records){
+    const page=await fs.readFile(new URL('dist/'+slug+'/index.html',root),'utf8');
+    assert.ok(page.includes('data-asn="'+asn+'"') && page.includes('<h1>'+name+' internet outage signals</h1>'));
+    assert.ok(page.includes('rel="canonical" href="https://coolcode.ca/outagescope/'+slug+'/"'));
+    assert.ok(page.includes('../app.mjs') && page.includes('id="lookup"'));
+  }
+});

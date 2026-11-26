@@ -1,7 +1,7 @@
 {
   "id": "outagescope",
-  "title": "Outage Scope",
-  "description": "Explore network disruptions and compare the measurement signals behind them.",
+  "title": "Canadian Internet Outage Check",
+  "description": "Check recent ISP connectivity signals for Eastlink, Rogers, Bell and TELUS and inspect dated outage history.",
   "category": "liminal-tools",
   "tags": [
     "ioda",

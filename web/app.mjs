@@ -156,6 +156,9 @@ function render(result) {
   get('event-count').textContent = result.eventError ? 'Unavailable' : result.events.length.toLocaleString();
   get('signal-count').textContent = result.signalError ? 'Unavailable' : result.signals.length.toLocaleString();
   get('days-count').textContent = `${Math.ceil((result.window.until - result.window.from)/DAY)} days`;
+  const latest = result.signals.reduce((time,series) => series.samples.reduce((last,sample) =>
+    sample.v === null ? last : Math.max(last,sample.t),time),0);
+  if (latest) get('provenance').textContent += ' · Latest observed signal '+utcText(latest)+' UTC';
   get('share-status').hidden = true;
   get('share-fallback').hidden = true;
   get('report').hidden = false;
@@ -276,6 +279,33 @@ const saved = {type:params.get('type'),code:params.get('code'),from:params.get('
 if (saved.type && saved.code && saved.from && saved.through && entityCode(saved.type,saved.code)) {
   fillForm(saved);
   load();
+} else if (document.body.dataset.asn) {
+  fillForm({type:'asn',code:document.body.dataset.asn,...timeDefaults()});
+  load();
 } else {
   fillForm({type:'country',code:'CA',...timeDefaults()});
 }
+
+async function loadRadar(asn) {
+  const panel = get('radar-panel');
+  panel.hidden = false;
+  try {
+    const data = await fetchJSON('/radarscope/data/current.json',{timeout:8000,maxBytes:1500000});
+    if (data?.tool !== 'radarscope' || data.status !== 'ready' || !Array.isArray(data.outages) || !Number.isFinite(Date.parse(data.captured_at))) {
+      throw new Error('Missing capture');
+    }
+    const observed = data.outages.filter(row => Array.isArray(row.asns) && row.asns.map(String).includes(asn));
+    const date = new Date(data.captured_at);
+    const days = Math.max(0,Math.floor((Date.now()-date.getTime())/86400000));
+    get('radar-status').textContent = 'Daily Canadian capture from '+date.toLocaleString()+' ('+days+' days ago). '+
+      (observed.length ? observed.length+' matching network annotations.' : 'No annotation names AS'+asn+' in the captured period.')+
+      (data.outage_coverage?.truncated ? ' The source list was truncated.' : '');
+    for (const item of observed.slice(0,30)) {
+      const text = String(item.start_at).slice(0,16).replace('T',' ')+' UTC · '+String(item.description).slice(0,350);
+      get('radar-list').append(element('li',text));
+    }
+  } catch {
+    get('radar-status').textContent = 'The daily Radar capture is unavailable. IODA signals are checked independently.';
+  }
+}
+if (document.body.dataset.asn) loadRadar(document.body.dataset.asn);

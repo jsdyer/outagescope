@@ -1,0 +1,7 @@
+[
+  {"slug":"eastlink","name":"Eastlink","asn":"11260","context":"Eastlink’s cable and fibre network includes Atlantic Canadian communities. These network-wide signals can miss a local interruption in Halifax or elsewhere.","support":"https://www.eastlink.ca/support"},
+  {"slug":"rogers","name":"Rogers","asn":"812","context":"This view follows Rogers AS812. Other Rogers and former Shaw networks can use different routing systems. The historical July 2022 example below uses this same ASN.","support":"https://www.rogers.com/support/outage"},
+  {"slug":"bell","name":"Bell Canada","asn":"577","context":"This view follows Bell Canada AS577. For the separate Atlantic network, use the Bell Aliant view. Either view can miss a neighbourhood or mobile service issue.","support":"https://support.bell.ca/outage-check"},
+  {"slug":"bell-aliant","name":"Bell Aliant","asn":"855","context":"This view follows Bell’s Atlantic network AS855. A Halifax access issue may have no visible effect on this network-wide signal. Bell Canada AS577 has its own view.","support":"https://support.bell.ca/outage-check"},
+  {"slug":"telus","name":"TELUS","asn":"852","context":"This view follows TELUS AS852. It is useful for checking wide-area changes while investigating home internet issues in communities such as Langley. Mobile, voice and individual lines can behave differently.","support":"https://www.telus.com/en/bc/outages"}
+]
